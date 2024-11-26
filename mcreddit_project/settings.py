@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['8000-mickjitsu-mcreddit-jvbtxsii4cq.ws.codeinstitute-ide.net',
+ALLOWED_HOSTS = ['8000-mickjitsu-mcreddit-l23r9ke2i21.ws.codeinstitute-ide.net',
 '.herokuapp.com',]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'homepage',
 ]
 
 MIDDLEWARE = [
