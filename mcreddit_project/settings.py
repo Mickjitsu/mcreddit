@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['8000-mickjitsu-mcreddit-l23r9ke2i21.ws.codeinstitute-ide.net',
 '.herokuapp.com',]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-mickjitsu-mcreddit-jvbtxsii4cq.ws.codeinstitute-ide.net'
+    'https://8000-mickjitsu-mcreddit-l23r9ke2i21.ws.codeinstitute-ide.net'
 ]
 
 # Application definition
