@@ -16,7 +16,7 @@
         <div id="cat-ul">
           <ul>
             {% for category in categories %}
-              <li class="single-category"> <a href="">{{ category.name }} </a> </li>
+              <li class="single-category"><a href="{% url 'category-threads' category.name %}"> {{ category.name }}</a></li>
             {% endfor %}
           </ul>
         </div>

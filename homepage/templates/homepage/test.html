@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'homepage/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h2>
+  {{ categories.name }}
+    </h2>   
+</div>
+{% endblock %}

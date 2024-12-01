@@ -58,40 +58,7 @@ all_posts = [
     }
 ]
 
-categories = [
-    {
-        "slug": "gaming",
-        "name": "Gaming"
-    },
-    {
-        "slug": "soccer",
-        "name": "Football"
-    },
-    {
-        "slug": "ufc",
-        "name": "UFC/MMA"
-    },
-    {
-        "slug": "politics",
-        "name": "Politics"
-    },
-    {
-        "slug": "housing",
-        "name": "Housing"
-    },
-    {
-        "slug": "astronomy",
-        "name": "Astronomy"
-    },
-    {
-        "slug": "coding",
-        "name": "All things coding"
-    },
-    {
-        "slug": "gastronomy",
-        "name": "Cooking fun"
-    },
-]
+
 # Create your views here.
 
 def get_date(post):
@@ -105,3 +72,9 @@ def home(request):
         "categories": categories,
         "posts": latest_posts
     })
+
+def category_threads(request, name):
+    categories = Category.objects.all()
+    this_category = next(cat for cat in categories if cat.name == name)
+    return render(request, 'homepage/test.html',{
+    'categories': this_category })

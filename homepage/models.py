@@ -17,6 +17,7 @@ class Thread(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # Date and time the thread was created
     updated_at = models.DateTimeField(auto_now=True)  # Date and time the thread was last updated
     views = models.PositiveIntegerField(default=0)  # Number of views for the thread
+    slug = models.SlugField(max_length=200, unique=True)
 
     def __str__(self):
         return self.title
