@@ -24,10 +24,15 @@
     </div>
     <div id="trending">
       <div id="news-stories">
-
       </div>
       <div id="trending-stories">
-
+        {% for post in posts %}
+            <div class="news-post">
+              <img src="" alt="post-image">
+              <h4> {{ post.title }} </h4>
+              <p> {{ post.excerpt }}</p>
+            </div>
+          {% endfor %}
       </div>
     </div>
   </div>
