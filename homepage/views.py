@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from datetime import date
+from .models import Thread, Comment, Category
 from django.http import HttpResponse
 
 
@@ -97,6 +98,7 @@ def get_date(post):
     return post.get("date")
 
 def home(request):
+    categories = Category.objects.all()
     sorted_posts = sorted(all_posts, key=get_date)
     latest_posts = sorted_posts[-3:]
     return render(request, 'homepage/index.html', {
