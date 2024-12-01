@@ -11,4 +11,7 @@
   {{ categories.name }}
     </h2>   
 </div>
+<div>
+  <a href="{% url 'create-threads' categories.name %}">Create new post!</a>
+</div>
 {% endblock %}

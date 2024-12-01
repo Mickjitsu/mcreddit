@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date
 from .models import Thread, Comment, Category
 from django.http import HttpResponse
+from .forms import ThreadForm
 
 
 all_posts = [
@@ -78,3 +79,19 @@ def category_threads(request, name):
     this_category = next(cat for cat in categories if cat.name == name)
     return render(request, 'homepage/test.html',{
     'categories': this_category })
+
+def create_thread(request, name):
+    category = get_object_or_404(Category, name=name)  # Fetch the category by its name that is passed through previous url
+
+    if request.method == 'POST':
+        form = ThreadForm(request.POST, request.FILES)
+        if form.is_valid():
+            thread = form.save(commit=False)
+            thread.created_by = request.user  # Assign the current user as the creator
+            thread.category = category  # Automatically set the category
+            thread.save()  # Save the thread
+            return redirect('home-page')  # Redirect to the home page after successful creation
+    else:
+        form = ThreadForm()
+
+    return render(request, 'homepage/create_thread.html', {'form': form, 'category': category})

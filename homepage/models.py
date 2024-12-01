@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -18,6 +19,13 @@ class Thread(models.Model):
     updated_at = models.DateTimeField(auto_now=True)  # Date and time the thread was last updated
     views = models.PositiveIntegerField(default=0)  # Number of views for the thread
     slug = models.SlugField(max_length=200, unique=True)
+    image = models.ImageField(upload_to='threads/', blank=True, null=True)  # Optional image field
+
+    def save(self, *args, **kwargs):
+        # Automatically create a slug from the title if slug is left empty
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Thread, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
