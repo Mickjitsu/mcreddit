@@ -2,40 +2,39 @@ main {
     height: 100vh;
 }
 
-#index-main{
-    display: inl
-}
-.categories-div {
-    max-width: 25%;
-    text-align: center;
-    margin-top: 30px;
+.homepage-details {
+    display: flex;
+    flex-direction: row;
 }
 
-#category-list {
-    margin-left: 0;
-    margin-top: 20px;
+#hot-topics {
     height: 80vh;
+    width: 25%;
     border: 1px solid black;
-    padding: 1px;
-    width: 20vw;
-    text-align: center;
-    align-items: left;
+    margin-top: 20px;
 }
 
-#trending-posts {
-    margin-top:20px;
-    margin-left: 20vh;
+#trending {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 50%;
+    margin-left: 30px;
 }
 
 #news-stories {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    height: 30vh;
+    border: 1px solid black;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-.single-category {
+#trending-stories {
+    height: 100vh;
     border: 1px solid black;
-    margin: 5px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
