@@ -5,6 +5,7 @@ main {
 .homepage-details {
     display: flex;
     flex-direction: row;
+    padding-left: 20px;
 }
 
 #hot-topics {
@@ -12,6 +13,9 @@ main {
     width: 25%;
     border: 1px solid black;
     margin-top: 20px;
+    background-color: rgb(182, 244, 249, 0.7);
+    text-align: center;
+    justify-content: center;
 }
 
 #trending {
@@ -20,6 +24,17 @@ main {
     margin-top: 30px;
     width: 50%;
     margin-left: 30px;
+}
+
+#cat-ul > ul {
+    list-style-type: none;
+    padding-left: 0; 
+}
+
+.single-category {
+    width: 60%;
+    margin: 3px;
+    border: 1px solid black;
 }
 
 #news-stories {
