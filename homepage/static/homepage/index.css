@@ -9,7 +9,7 @@ main {
 }
 
 #hot-topics {
-    height: 80vh;
+    height: 90vh;
     width: 25%;
     border: 1px solid black;
     margin-top: 20px;
@@ -43,6 +43,11 @@ main {
     border: 1px solid black;
     width: 100%;
     margin-bottom: 20px;
+}
+
+.new-posts {
+    border: 1px solid black;
+    margin: 5px;
 }
 
 #trending-stories {

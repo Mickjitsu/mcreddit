@@ -10,7 +10,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Thread(models.Model):
     title = models.CharField(max_length=200)  # Title of the thread
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # User who created the thread

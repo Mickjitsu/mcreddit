@@ -27,11 +27,11 @@
       </div>
       <div id="trending-stories">
         {% for post in posts %}
-            <div class="news-post">
-              <img src="" alt="post-image">
+        <a href="{% url 'single-thread' post.slug %}">
+            <div class="new-posts">
               <h4> {{ post.title }} </h4>
-              <p> {{ post.excerpt }}</p>
             </div>
+          </a>
           {% endfor %}
       </div>
     </div>

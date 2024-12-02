@@ -5,61 +5,6 @@ from django.http import HttpResponse
 from .forms import ThreadForm
 
 
-all_posts = [
-    {
-    "slug": "hike-in-the-mountains",
-    "image": "mountains.jpg",
-    "author": "Mick",
-    "date": date(2021, 7, 21),
-    "title": "Mountain Hiking",
-    "excerpt": "This is gay",
-    "content": "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facere possimus at eligendi illum officiis ea ad nemo quis, sunt, vel libero quos laudantium error blanditiis debitis ex amet magni impedit?"
-    },
-    {
-        "slug": "programming-is-fun",
-        "image": "coding.jpg",
-        "author": "Maximilian",
-        "date": date(2022, 3, 10),
-        "title": "Programming Is Great!",
-        "excerpt": "Did you ever spend hours searching that one error in your code? Yep - that's what happened to me yesterday...",
-        "content": """
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-        """
-    },
-    {
-        "slug": "into-the-woods",
-        "image": "woods.jpg",
-        "author": "Maximilian",
-        "date": date(2020, 8, 5),
-        "title": "Nature At Its Best",
-        "excerpt": "Nature is amazing! The amount of inspiration I get when walking in nature is incredible!",
-        "content": """
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nobis
-          aperiam est praesentium, quos iste consequuntur omnis exercitationem quam
-          velit labore vero culpa ad mollitia? Quis architecto ipsam nemo. Odio.
-        """
-    }
-]
-
-
 # Create your views here.
 
 def get_date(post):
@@ -67,11 +12,10 @@ def get_date(post):
 
 def home(request):
     categories = Category.objects.all()
-    sorted_posts = sorted(all_posts, key=get_date)
-    latest_posts = sorted_posts[-3:]
+    posts = Thread.objects.all().order_by('-created_at')[:10]
     return render(request, 'homepage/index.html', {
         "categories": categories,
-        "posts": latest_posts
+        "posts": posts
     })
 
 def category_threads(request, name):
@@ -100,7 +44,6 @@ def create_thread(request, name):
     return render(request, 'homepage/create_thread.html', {'form': form, 'category': category})
 
 def single_thread(request, slug):
-    posts = Thread.objects.all()
-    this_post = posts.filter(slug=slug)
+    this_post = get_object_or_404(Thread, slug=slug)
     return render(request, 'homepage/single_post.html',{
     'post': this_post })
