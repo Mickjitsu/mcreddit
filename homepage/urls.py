@@ -6,6 +6,7 @@ urlpatterns = [
    path("", views.home, name="home-page"),
    path("topic/<slug:name>", views.category_threads , name = "category-threads"),
    path("topic/<slug:name>/create", views.create_thread , name = "create-threads"),
+   path("thread/<slug:slug>", views.single_thread, name="single-thread")
 ]
 
 if settings.DEBUG:

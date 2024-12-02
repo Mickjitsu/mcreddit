@@ -76,9 +76,12 @@ def home(request):
 
 def category_threads(request, name):
     categories = Category.objects.all()
+    posts = Thread.objects.all()
     this_category = next(cat for cat in categories if cat.name == name)
-    return render(request, 'homepage/test.html',{
-    'categories': this_category })
+    relevant_posts = posts.filter(category=this_category)
+    return render(request, 'homepage/category.html',{
+    'categories': this_category,
+    'posts': relevant_posts })
 
 def create_thread(request, name):
     category = get_object_or_404(Category, name=name)  # Fetch the category by its name that is passed through previous url
@@ -95,3 +98,9 @@ def create_thread(request, name):
         form = ThreadForm()
 
     return render(request, 'homepage/create_thread.html', {'form': form, 'category': category})
+
+def single_thread(request, slug):
+    posts = Thread.objects.all()
+    this_post = posts.filter(slug=slug)
+    return render(request, 'homepage/single_post.html',{
+    'post': this_post })

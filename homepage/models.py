@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import Truncator
 from django.utils.text import slugify
 
 class Category(models.Model):
@@ -20,6 +21,9 @@ class Thread(models.Model):
     views = models.PositiveIntegerField(default=0)  # Number of views for the thread
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='threads/', blank=True, null=True)  # Optional image field
+
+    def get_excerpt(self):
+        return Truncator(self.content).chars(200) #Dynamic excerpt added, comprising of 200 characters of content 
 
     def save(self, *args, **kwargs):
         # Automatically create a slug from the title if slug is left empty

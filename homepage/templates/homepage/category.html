@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'homepage/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h2>
+  {{ categories.name|capfirst }}
+    </h2>   
+</div>
+<div class="create-thread">
+  <a href="{% url 'create-threads' categories.name %}"><h5>Create a new thread here!</h5></a>
+</div>
+<section class="cat-posts">
+  {% for post in posts %}
+  <a href="{% url 'single-thread' post.slug %}">
+  <div class="posts">
+    <h5> {{ post.title }}</h5>
+    <p> {{ post.get_excerpt }}</p>
+  </div>
+  </a>  
+  {% endfor %}
+</section>
+{% endblock %}
