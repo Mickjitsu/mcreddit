@@ -5,9 +5,37 @@
 <div class="thread-details">
     <h2> {{ post.title }} </h2>
     <p> {{ post.content }}</p>
+    <div class="votes">
+        <button class="upvote-thread" data-slug="{{ post.slug }}">Upvote</button>
+        <button class="downvote-thread" data-slug="{{ post.slug }}">Downvote</button>
+        <p>Upvotes: <span class="upvotes-count">{{ post.upvotes }}</span> | Downvotes: <span class="downvotes-count">{{ post.downvotes }}</span></p>
+    </div>
 </div>
 
 <div class="comment-section">
-    {% include 'homepage/includes/form.html' %}
+    <!-- Display existing comments -->
+    <h3>Comments:</h3>
+    {% for comment in post.posts.all %}
+        <div class="comment">
+            <p><strong>{{ comment.author.username }}</strong> said:</p>
+            <p>{{ comment.content }}</p>
+            <p><small>Posted on {{ comment.created_at }}</small></p>
+        </div>
+        <div class="votes">
+            <button class="upvote-comment" data-comment-id="{{ comment.id }}">Upvote</button>
+            <button class="downvote-comment" data-comment-id="{{ comment.id }}">Downvote</button>
+            <p>Upvotes: <span class="upvotes-count">{{ comment.upvotes }}</span> | Downvotes: <span class="downvotes-count">{{ comment.downvotes }}</span></p>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+
+    <!-- Conditionally show the comment form or a login message -->
+    {% if user.is_authenticated %}
+        <h3>Post a Comment:</h3>
+        {% include 'homepage/includes/form.html' %}
+    {% else %}
+        <p>Please <a href="{% url 'account_login' %}">log in</a> to post a comment.</p>
+    {% endif %}
 </div>
 {% endblock %}

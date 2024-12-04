@@ -16,12 +16,16 @@
 </div>
 <section class="cat-posts">
   {% for post in posts %}
+  {% if post.is_approved == True %}
   <a href="{% url 'single-thread' post.slug %}">
   <div class="posts">
     <h5> {{ post.title }}</h5>
     <p> {{ post.get_excerpt }}</p>
   </div>
-  </a>  
+  </a>
+  {% else %}
+   
+  {% endif %}
   {% endfor %}
 </section>
 {% endblock %}

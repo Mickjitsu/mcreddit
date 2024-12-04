@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date
-from .models import Thread, Comment, Category
-from django.http import HttpResponse
+from .models import Thread, Comment, Category, Vote
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .forms import ThreadForm, CommentForm
 
@@ -57,7 +57,7 @@ def single_thread(request, slug):
             comment.author = request.user  # Assign the current user as the comment author
             comment.thread = this_post  # Associate the comment with the current thread
             comment.save()  # Save the comment to the database
-            return redirect('single_thread', slug=this_post.slug)  # Redirect back to the thread's page
+            return redirect('single-thread', slug=this_post.slug)  # Redirect back to the thread's page
 
     else:
         form = CommentForm()
@@ -69,3 +69,88 @@ def single_thread(request, slug):
 
 def approval(request):
     return render(request, 'homepage/pending_approval.html')
+
+@login_required
+def upvote_thread(request, slug):
+    thread = get_object_or_404(Thread, slug=slug)
+
+    # Check if the user has already voted
+    if Vote.objects.filter(user=request.user, thread=thread).exists():
+        return JsonResponse({'error': 'You have already voted on this thread.'}, status=400)
+
+    # Create a new vote
+    Vote.objects.create(user=request.user, thread=thread, vote_type='upvote')
+
+    # Update the vote counts on the thread
+    thread.upvotes = thread.get_upvotes_count()
+    thread.downvotes = thread.get_downvotes_count()
+    thread.save()
+
+    return JsonResponse({
+        'upvotes': thread.upvotes,
+        'downvotes': thread.downvotes
+    })
+
+@login_required
+def downvote_thread(request, slug):
+    thread = get_object_or_404(Thread, slug=slug)
+
+    # Check if the user has already voted
+    if Vote.objects.filter(user=request.user, thread=thread).exists():
+        return JsonResponse({'error': 'You have already voted on this thread.'}, status=400)
+
+    # Create a new vote
+    Vote.objects.create(user=request.user, thread=thread, vote_type='downvote')
+
+    # Update the vote counts on the thread
+    thread.upvotes = thread.get_upvotes_count()
+    thread.downvotes = thread.get_downvotes_count()
+    thread.save()
+
+    return JsonResponse({
+        'upvotes': thread.upvotes,
+        'downvotes': thread.downvotes
+    })
+
+@login_required
+def upvote_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Check if the user has already voted
+    if Vote.objects.filter(user=request.user, comment=comment).exists():
+        return JsonResponse({'error': 'You have already voted on this comment.'}, status=400)
+
+    # Create a new vote
+    Vote.objects.create(user=request.user, comment=comment, vote_type='upvote')
+
+    # Update the vote counts on the comment
+    comment.upvotes = comment.get_upvotes_count()
+    comment.downvotes = comment.get_downvotes_count()
+    comment.save()
+
+    return JsonResponse({
+        'upvotes': comment.upvotes,
+        'downvotes': comment.downvotes
+    })
+
+
+@login_required
+def downvote_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+
+    # Check if the user has already voted
+    if Vote.objects.filter(user=request.user, comment=comment).exists():
+        return JsonResponse({'error': 'You have already voted on this comment.'}, status=400)
+
+    # Create a new vote
+    Vote.objects.create(user=request.user, comment=comment, vote_type='downvote')
+
+    # Update the vote counts on the comment
+    comment.upvotes = comment.get_upvotes_count()
+    comment.downvotes = comment.get_downvotes_count()
+    comment.save()
+
+    return JsonResponse({
+        'upvotes': comment.upvotes,
+        'downvotes': comment.downvotes
+    })

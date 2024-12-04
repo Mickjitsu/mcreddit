@@ -22,6 +22,15 @@ class Thread(models.Model):
     image = models.ImageField(upload_to='threads/', blank=True, null=True)  # Optional image field
     is_approved = models.BooleanField(default=False)  # Flag to check if the thread is approved by admin
 
+    upvotes = models.PositiveIntegerField(default=0)
+    downvotes = models.PositiveIntegerField(default=0)
+
+    def get_upvotes_count(self):
+        return Vote.objects.filter(thread=self, vote_type='upvote').count()
+
+    def get_downvotes_count(self):
+        return Vote.objects.filter(thread=self, vote_type='downvote').count()
+
     def get_excerpt(self):
         return Truncator(self.content).chars(200)  # Dynamic excerpt of the first 200 characters of content
 
@@ -41,6 +50,33 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # Date and time the post was created
     updated_at = models.DateTimeField(auto_now=True)  # Date and time the post was last updated
     edited = models.BooleanField(default=False)  # Whether the post was edited
+
+    upvotes = models.PositiveIntegerField(default=0)
+    downvotes = models.PositiveIntegerField(default=0)
     
+    def get_upvotes_count(self):
+        return Vote.objects.filter(comment=self, vote_type='upvote').count()
+
+    def get_downvotes_count(self):
+        return Vote.objects.filter(comment=self, vote_type='downvote').count()
+        
     def __str__(self):
         return f"Post by {self.author.username} in {self.thread.title}"
+
+class Vote(models.Model):
+    VOTE_CHOICES = [
+        ('upvote', 'Upvote'),
+        ('downvote', 'Downvote')
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # User who voted
+    thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.CASCADE)  # Associated thread
+    comment = models.ForeignKey(Comment, null=True, blank=True, on_delete=models.CASCADE)  # Associated comment
+    vote_type = models.CharField(max_length=8, choices=VOTE_CHOICES)  # Type of vote
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        # Ensures that a user can only vote once per thread or comment
+        unique_together = ('user', 'thread', 'comment')
+
+    def __str__(self):
+        return f"{self.user.username} voted {self.vote_type} on {self.thread.title if self.thread else self.comment.id}"
