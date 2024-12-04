@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from datetime import date
 from .models import Thread, Comment, Category
 from django.http import HttpResponse
-from .forms import ThreadForm
+from django.contrib.auth.decorators import login_required
+from .forms import ThreadForm, CommentForm
 
 
 # Create your views here.
@@ -27,6 +28,7 @@ def category_threads(request, name):
     'categories': this_category,
     'posts': relevant_posts })
 
+@login_required
 def create_thread(request, name):
     category = get_object_or_404(Category, name=name)  # Fetch the category by its name that is passed through previous url
 
@@ -37,13 +39,33 @@ def create_thread(request, name):
             thread.created_by = request.user  # Assign the current user as the creator
             thread.category = category  # Automatically set the category
             thread.save()  # Save the thread
-            return redirect('home-page')  # Redirect to the home page after successful creation
+            return redirect('pending')  # Redirect to the home page after successful creation
     else:
         form = ThreadForm()
 
     return render(request, 'homepage/create_thread.html', {'form': form, 'category': category})
 
 def single_thread(request, slug):
+    # Get the thread object based on the slug
     this_post = get_object_or_404(Thread, slug=slug)
-    return render(request, 'homepage/single_post.html',{
-    'post': this_post })
+
+    # Handle comment submission
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user  # Assign the current user as the comment author
+            comment.thread = this_post  # Associate the comment with the current thread
+            comment.save()  # Save the comment to the database
+            return redirect('single_thread', slug=this_post.slug)  # Redirect back to the thread's page
+
+    else:
+        form = CommentForm()
+
+    return render(request, 'homepage/single_post.html', {
+        'post': this_post,
+        'form': form  # Pass the comment form to the template
+    })
+
+def approval(request):
+    return render(request, 'homepage/pending_approval.html')

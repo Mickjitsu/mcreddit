@@ -13,16 +13,17 @@ class Category(models.Model):
 class Thread(models.Model):
     title = models.CharField(max_length=200)  # Title of the thread
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # User who created the thread
-    content = models.TextField() #The opening thread message/post
-    category = models.ForeignKey(Category, related_name="threads", on_delete=models.CASCADE)  # Category the thread belongs to
+    content = models.TextField()  # The opening thread message/post
+    category = models.ForeignKey('Category', related_name="threads", on_delete=models.CASCADE)  # Category the thread belongs to
     created_at = models.DateTimeField(auto_now_add=True)  # Date and time the thread was created
     updated_at = models.DateTimeField(auto_now=True)  # Date and time the thread was last updated
     views = models.PositiveIntegerField(default=0)  # Number of views for the thread
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='threads/', blank=True, null=True)  # Optional image field
+    is_approved = models.BooleanField(default=False)  # Flag to check if the thread is approved by admin
 
     def get_excerpt(self):
-        return Truncator(self.content).chars(200) #Dynamic excerpt added, comprising of 200 characters of content 
+        return Truncator(self.content).chars(200)  # Dynamic excerpt of the first 200 characters of content
 
     def save(self, *args, **kwargs):
         # Automatically create a slug from the title if slug is left empty

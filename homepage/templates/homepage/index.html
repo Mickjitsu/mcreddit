@@ -27,21 +27,23 @@
       </div>
       <div id="trending-stories">
         {% for post in posts %}
-        {% if post.image %}
-        <a href="{% url 'single-thread' post.slug %}">
-            <div class="new-posts">
-              <img src= "{{ post.image.url }}" alt="">
-              <h4> {{ post.title }} </h4>
-              <p> {{post.get_excerpt}} </p>
-            </div>
-          </a>
-        {% else %}
-        <a href="{% url 'single-thread' post.slug %}">
-          <div class="new-posts">
-            <h4> {{ post.title }} </h4>
-            <p> {{post.get_excerpt}} </p>
-          </div>
-        </a>
+        {% if post.is_approved == True %}
+          {% if post.image %}
+            <a href="{% url 'single-thread' post.slug %}">
+              <div class="new-posts">
+                <img src= "{{ post.image.url }}" alt="">
+                <h4> {{ post.title }} </h4>
+                <p> {{post.get_excerpt}} </p>
+              </div>
+            </a>
+          {% else %}
+            <a href="{% url 'single-thread' post.slug %}">
+              <div class="new-posts">
+                <h4> {{ post.title }} </h4>
+                <p> {{post.get_excerpt}} </p>
+              </div>
+            </a>
+          {% endif %}
         {% endif %}
           {% endfor %}
       </div>
