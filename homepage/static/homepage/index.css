@@ -2,6 +2,7 @@ main {
     height: 100vh;
 }
 
+/*Home page - Index page*/
 .homepage-details {
     display: flex;
     flex-direction: row;
@@ -53,17 +54,86 @@ main {
 }
 
 .new-posts{
-    height: 50%;
+    height: 200px;
+    width: 100%;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
     margin-top: 20px;
     text-align: center;
     border-radius: 10px;
-    overflow: scroll;
+    -webkit-box-shadow: 2px 2px 28px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 2px 28px -4px rgba(0,0,0,0.75);
+    box-shadow: 2px 2px 28px -4px rgba(0,0,0,0.75);
+    background-color: rgb(34, 151, 153, 0.7);
+    display: flex;            /* Align children (image and text) horizontally */
+    align-items: flex-start;  /* Align items to the top */
+    margin-bottom: 20px;
 }
+
+.new-posts h4, .new-posts p {
+    margin: 0;
+    padding: 0;
+}
+
+.new-posts > img {
+    width: auto;            
+    height: 100%;
+    border-radius: 3px;
+    border: 2px solid gray;
+    max-width: 50%;             
+    margin-right: 20px;       
+    object-fit: cover;        
+}
+
+
+.new-posts .text-content {
+    overflow-y: auto;        /* Enable vertical scrolling */
+    max-height: 100%;        /* Ensure the text content doesn't overflow beyond the parent container */
+    padding-right: 20px;            
+}
+
+.new-posts .text-content h4 {
+    font-size: 1.2em;         
+    font-weight: bold;
+    margin-bottom: 8px;       
+}
+  
+  .new-posts .text-content p {
+    font-size: 1em;           
+    color: #555;              
+}
+
 
 #trending-stories {
     height: 100vh;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
+}
+
+
+/* Individual category page */
+
+.cat-posts {
+    margin-top: 20px;
+    padding: 0;
+}
+
+.posts {
+    border-bottom: 1px solid black;
+    background-color: rgb(34, 151, 153, 0.7);
+    margin-bottom: 1px;
+    padding: 5px; 
+    height: 100px;
+}
+
+
+.cat-posts > a {
+    display: block; 
+}
+
+
+.cat-posts a {
+    margin: 0;
+    padding: 0;
+    display: block;
 }

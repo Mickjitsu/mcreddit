@@ -14,11 +14,11 @@
 <div class="create-thread">
   <a href="{% url 'create-threads' categories.name %}"><h5>Create a new thread here!</h5></a>
 </div>
-<section class="cat-posts">
+<div class="cat-posts">
   {% for post in posts %}
   {% if post.is_approved == True %}
-  <a href="{% url 'single-thread' post.slug %}">
   <div class="posts">
+  <a href="{% url 'single-thread' post.slug %}">
     <h5> {{ post.title }}</h5>
     <p> {{ post.get_excerpt }}</p>
   </div>
@@ -27,5 +27,5 @@
    
   {% endif %}
   {% endfor %}
-</section>
+</div>
 {% endblock %}

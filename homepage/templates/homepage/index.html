@@ -31,21 +31,27 @@
           {% if post.image %}
             <a href="{% url 'single-thread' post.slug %}">
               <div class="new-posts">
-                <img src= "{{ post.image.url }}" alt="">
-                <h4> {{ post.title }} </h4>
-                <p> {{post.get_excerpt}} </p>
+                <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                <div class="text-content">
+                  <p>Author : {{ post.created_by }}</p>
+                  <h4> {{ post.title }} </h4>
+                  <p> {{ post.get_excerpt }} </p>
+                </div>
               </div>
             </a>
           {% else %}
             <a href="{% url 'single-thread' post.slug %}">
               <div class="new-posts">
-                <h4> {{ post.title }} </h4>
-                <p> {{post.get_excerpt}} </p>
+                <div class="text-content">
+                  <p>Author : {{ post.created_by }}</p>
+                  <h4> {{ post.title }} </h4>
+                  <p> {{ post.get_excerpt }} </p>
+                </div>
               </div>
             </a>
           {% endif %}
         {% endif %}
-          {% endfor %}
+        {% endfor %}
       </div>
     </div>
   </div>
