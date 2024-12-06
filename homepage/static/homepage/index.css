@@ -66,7 +66,7 @@ main {
     background-color: rgb(34, 151, 153, 0.7);
     display: flex;            /* Align children (image and text) horizontally */
     align-items: flex-start;  /* Align items to the top */
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .new-posts h4, .new-posts p {
@@ -136,4 +136,10 @@ main {
     margin: 0;
     padding: 0;
     display: block;
+}
+
+#pag-buttons {
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }

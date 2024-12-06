@@ -4,6 +4,7 @@ from .models import Thread, Comment, Category, Vote
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from .forms import ThreadForm, CommentForm
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -13,10 +14,15 @@ def get_date(post):
 
 def home(request):
     categories = Category.objects.all()
-    posts = Thread.objects.all().order_by('-created_at')[:10]
+    posts_list = Thread.objects.filter(is_approved=True).order_by('-created_at')
+    
+    paginator = Paginator(posts_list, 5)  
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number) 
+
     return render(request, 'homepage/index.html', {
         "categories": categories,
-        "posts": posts
+        "page_obj": page_obj
     })
 
 def category_threads(request, name):
@@ -27,6 +33,7 @@ def category_threads(request, name):
     return render(request, 'homepage/category.html',{
     'categories': this_category,
     'posts': relevant_posts })
+
 
 @login_required
 def create_thread(request, name):
